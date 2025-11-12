@@ -1,9 +1,10 @@
 import { Component, ElementRef, viewChild } from '@angular/core';
+import { TimerComponent } from '../timer/timer.component';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [],
+  imports: [TimerComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
