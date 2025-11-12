@@ -11,16 +11,18 @@ export class GameComponent {
   img = viewChild<ElementRef>('img');
 
   onClick(event: MouseEvent) {
-    const posX = event.offsetX;
-    const posY = event.offsetY;
-    const imgWidth = this.img()?.nativeElement?.width;
-    const imgHeight = this.img()?.nativeElement?.height;
-    
-    //const x = posX / img.width;
-    //const y = posY / img.height;
-    console.log({posX, posY});
-    
-    console.log('You clicked!');
-    
+     const target = event.target as HTMLElement;
+     if (!target) return;
+
+     const rect = target.getBoundingClientRect();
+     const posX = event.clientX - rect.left;
+     const posY = event.clientY - rect.top;
+
+     const xNormalized = posX / rect.width;
+     const yNormalized = posY / rect.height; 
+
+     //TODO: show dropdown for character selection at (posX, posY)
+     //TODO: send (xNormalized, yNormalized) to backend for character validation
+     
   }
 }
