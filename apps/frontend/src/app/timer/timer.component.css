@@ -1,0 +1,11 @@
+div {
+    border: 2px solid #01aeee;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: large;
+    background-color: #01aeee;
+    color: white;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-family: inherit;
+}
