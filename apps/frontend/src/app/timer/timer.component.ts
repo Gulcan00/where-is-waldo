@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TimerService } from '../services/timer.service';
 
 @Component({
   selector: 'app-timer',
@@ -8,7 +9,12 @@ import { Component } from '@angular/core';
   styleUrl: './timer.component.css'
 })
 export class TimerComponent {
-  time = 0;
-  display = '';
 
+  constructor(
+    public timerService: TimerService
+  ) { }
+
+  ngOnInit() {
+    this.timerService.startTimer();
+  }
 }

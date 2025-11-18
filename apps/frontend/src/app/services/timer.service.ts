@@ -1,17 +1,41 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, OnDestroy, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TimerService {
+export class TimerService implements OnDestroy {
+  private time = signal(0);
+  private intervalId: ReturnType<typeof setInterval> | null = null;
+  isRunning = signal(false);
+  formattedTime = computed(() => {
+    const totalSeconds = this.time();
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  });
+    
 
   constructor() { }
 
   startTimer() {
+    if (this.isRunning()) return;
 
+    this.isRunning.set(true);
+    this.intervalId = setInterval(() => {
+      this.time.set(this.time() + 1);
+    }, 1000);
   }
 
   stopTimer() {
-    
+    this.isRunning.set(false);
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 }
