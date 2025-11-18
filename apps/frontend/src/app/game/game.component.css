@@ -8,5 +8,20 @@
 }
 
 img {
-  max-width: 100%;
+  width: 300px;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 100%;
+  }
+  img {
+    width: 800px;
+  }
+}
+
+@media (min-width: 1500px) {
+  img {
+    width: 1200px;
+  }
 }
