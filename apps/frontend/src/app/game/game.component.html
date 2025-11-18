@@ -1,9 +1,12 @@
 <div class="container">
   <app-timer></app-timer>
   <img
-      #img
-      src="assets/images/waldo1.jpeg"
-      alt="Where's Waldo puzzle image"
-      (click)="onClick($event)"
-   />
+    #img
+    src="assets/images/waldo1.jpeg"
+    alt="Where's Waldo puzzle image"
+    (click)="onClick($event)"
+  />
+  @if (showDropdown()) {
+  <app-dropdown [items]="['test']"></app-dropdown>
+  }
 </div>
