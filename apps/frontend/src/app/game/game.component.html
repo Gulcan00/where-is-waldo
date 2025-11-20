@@ -6,7 +6,9 @@
     alt="Where's Waldo puzzle image"
     (click)="onClick($event)"
   />
-  @if (showDropdown()) {
-  <app-dropdown [items]="['test']"></app-dropdown>
+  @if (dropdownState().visible) {
+    <div [style.top.px]="dropdownState().y" [style.left.px]="dropdownState().x" style="position: absolute;">
+      <app-dropdown [items]="characters" value="id" label="name"></app-dropdown>
+    </div>
   }
 </div>
