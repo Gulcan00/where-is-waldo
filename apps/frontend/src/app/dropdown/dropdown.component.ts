@@ -8,6 +8,7 @@ import { Component, input } from '@angular/core';
   styleUrl: './dropdown.component.css'
 })
 export class DropdownComponent {
-  items = input.required<string[]>();
-
+  items = input.required<any[]>();
+  value = input.required<string>();
+  label = input.required<string>();
 }
