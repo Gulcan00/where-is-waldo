@@ -2,7 +2,7 @@ div {
     padding: 12px;
     border-radius: 8px;
     font-size: large;
-    background-color: #01aeee;
+    background-color: var(--primary-color);
     color: white;
     font-weight: 800;
     letter-spacing: 1px;
