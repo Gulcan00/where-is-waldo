@@ -2,13 +2,13 @@
   <app-timer></app-timer>
   <img
     #img
-    src="assets/images/waldo1.jpeg"
+    src="assets/images/scenes/scene1.jpeg"
     alt="Where's Waldo puzzle image"
     (click)="onClick($event)"
   />
   @if (dropdownState().visible) {
     <div [style.top.px]="dropdownState().y" [style.left.px]="dropdownState().x" style="position: absolute;">
-      <app-dropdown [items]="characters" value="id" label="name"></app-dropdown>
+      <app-dropdown [items]="characters" value="id" label="name" (selectValue)="onSelectValue($event)"></app-dropdown>
     </div>
   }
 </div>

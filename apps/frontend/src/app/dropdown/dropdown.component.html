@@ -1,7 +1,7 @@
 <div class="menu">
     <ul>
         @for (item of items(); track $index) {
-            <li>{{ item[label()]}}</li>
+            <li><button (click)="onSelectValue(item[value()])">{{ item[label()]}}</button></li>
         }
     </ul>
 </div>

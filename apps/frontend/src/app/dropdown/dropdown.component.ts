@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
@@ -11,4 +11,10 @@ export class DropdownComponent {
   items = input.required<any[]>();
   value = input.required<string>();
   label = input.required<string>();
+
+  selectValue = output<any>();
+
+  onSelectValue(value: any) {
+    this.selectValue.emit(value);
+  }
 }

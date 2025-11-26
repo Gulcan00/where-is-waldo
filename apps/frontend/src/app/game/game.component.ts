@@ -2,6 +2,7 @@ import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import { TimerComponent } from '../timer/timer.component';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { Character } from '../models/character';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-game',
@@ -14,6 +15,10 @@ export class GameComponent {
   img = viewChild<ElementRef>('img');
   dropdownState = signal<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
 
+  private xNormalized: number = 0;
+  private yNormalized: number = 0;
+
+  // TODO get characters from backend
   characters: Character[] = [
     {
         id: 1,
@@ -22,15 +27,22 @@ export class GameComponent {
     },
     {
         id: 2,
-        name: 'Odlaw',
+        name: 'Wenda',
         imgUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Odlaw.jpg'
     },
     {
         id: 3,
-        name: 'Wenda',
+        name: 'Wizard',
+        imgUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1a/Wenda_concept_art.jpg'
+    },
+    {
+        id: 4,
+        name: 'Odlaw',
         imgUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1a/Wenda_concept_art.jpg'
     }
   ];
+
+  constructor(private api: ApiService) {}
 
   onClick(event: MouseEvent) {
      const target = event.target as HTMLElement;
@@ -40,13 +52,20 @@ export class GameComponent {
      const posX = event.clientX - rect.left;
      const posY = event.clientY - rect.top;
 
-     const xNormalized = posX / rect.width;
-     const yNormalized = posY / rect.height; 
-
-     this.dropdownState.set({x: event.clientX, y: event.clientY, visible: !this.dropdownState().visible});
-
-     //TODO: show dropdown for character selection at (posX, posY)
-     //TODO: send (xNormalized, yNormalized) to backend for character validation
+     this.xNormalized = posX / rect.width;
+     this.yNormalized = posY / rect.height; 
      
+     this.dropdownState.set({x: event.clientX, y: event.clientY, visible: !this.dropdownState().visible});
+  }
+
+  onSelectValue(characterId: number) {
+    this.dropdownState.update(val => ({...val, visible: !val.visible}));
+    this.api.validate({
+      positionX: this.xNormalized,
+      positionY: this.yNormalized,
+      characterId
+    }).subscribe({
+      next: (data) => console.log(data)
+    })
   }
 }
