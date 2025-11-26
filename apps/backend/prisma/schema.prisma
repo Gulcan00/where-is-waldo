@@ -11,5 +11,21 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+model Character {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  imgUrl    String
+  positions Position[]
+}
+
+model Position {
+  id          Int       @id @default(autoincrement())
+  xCoordinate Decimal   @db.Decimal(10, 8)
+  yCoordinate Decimal   @db.Decimal(10, 8)
+  radius      Decimal   @db.Decimal(10, 8)
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int
+  imgUrl      String
 }
