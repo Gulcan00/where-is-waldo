@@ -8,7 +8,7 @@
   />
   @if (dropdownState().visible) {
     <div [style.top.px]="dropdownState().y" [style.left.px]="dropdownState().x" style="position: absolute;">
-      <app-dropdown [items]="characters" value="id" label="name" (selectValue)="onSelectValue($event)"></app-dropdown>
+      <app-dropdown [items]="displayCharacters()" value="id" label="name" (selectValue)="onSelectValue($event)"></app-dropdown>
     </div>
   }
 </div>

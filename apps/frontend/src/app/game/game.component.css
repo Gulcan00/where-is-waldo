@@ -6,6 +6,7 @@
   max-width: 85%;
   margin: 0 auto;
   position: relative;
+  gap: 12px;
 }
 
 img {

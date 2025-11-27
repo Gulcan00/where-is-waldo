@@ -1,8 +1,13 @@
-import { Component, ElementRef, signal, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, OnInit, signal, Signal, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TimerComponent } from '../timer/timer.component';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { Character } from '../models/character';
 import { ApiService } from '../services/api.service';
+
+interface CharacterUI extends Character {
+  found: boolean;
+}
 
 @Component({
   selector: 'app-game',
@@ -18,29 +23,20 @@ export class GameComponent {
   private xNormalized: number = 0;
   private yNormalized: number = 0;
 
-  // TODO get characters from backend
-  characters: Character[] = [
-    {
-        id: 1,
-        name: 'Waldo',
-        imgUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Waldo_concept_art.jpg'
-    },
-    {
-        id: 2,
-        name: 'Wenda',
-        imgUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Odlaw.jpg'
-    },
-    {
-        id: 3,
-        name: 'Wizard',
-        imgUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1a/Wenda_concept_art.jpg'
-    },
-    {
-        id: 4,
-        name: 'Odlaw',
-        imgUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1a/Wenda_concept_art.jpg'
-    }
-  ];
+  readonly characters = toSignal(
+    this.api.getCharacters(), 
+    { initialValue: []}
+  );
+
+  foundIds = signal<number[]>([]);
+
+  displayCharacters = computed<CharacterUI[]>(() => {
+    const allCharacters = this.characters();
+    return allCharacters.map(character => ({
+      ...character,
+      found: this.foundIds().includes(character.id)
+    }));
+  });
 
   constructor(private api: ApiService) {}
 
@@ -65,7 +61,11 @@ export class GameComponent {
       positionY: this.yNormalized,
       characterId
     }).subscribe({
-      next: (data) => console.log(data)
+      next: (result) => {
+          if (result) {
+            this.foundIds.update(currentIds => [...currentIds, characterId]);
+          }         
+      }
     })
   }
 }
