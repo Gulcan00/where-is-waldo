@@ -14,10 +14,10 @@ const validate = async (req: Request, res: Response, next: NextFunction) => {
     const distance = Math.sqrt(Math.pow(positionX - Number(position.xCoordinate), 2) + Math.pow(positionY - Number(position.yCoordinate), 2));
 
     if (distance <= Number(position.radius)) {
-        return res.json({result: true});
+        return res.json(true);
     } 
 
-    return res.json({result: false});
+    return res.json(false);
 }
 
 export { validate };
