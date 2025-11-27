@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ValidatePayload } from '../models/validate-payload';
+import { Character } from '../models/character';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +15,9 @@ export class ApiService {
 
   validate(payload: ValidatePayload) {
     return this.http.post(`${this.baseUrl}/validate`, payload);
+  }
+
+  getCharacters() {
+    return this.http.get<Character[]>(`${this.baseUrl}/character`);
   }
 }
