@@ -6,15 +6,15 @@ async function main() {
     });
 
     const wenda = await prisma.character.create({
-        data: { name: 'Wenda', imgUrl: '/images/characters/wenda.jpg'}
+        data: { name: 'Wenda', imgUrl: '/images/characters/wenda.png'}
     });
 
     const wizard = await prisma.character.create({
-        data: { name: 'Wizard Whitebeard', imgUrl: '/images/characters/wizard.webp'}
+        data: { name: 'Wizard Whitebeard', imgUrl: '/images/characters/wizard.png'}
     });
 
     const odlaw = await prisma.character.create({
-        data: { name: 'Odlaw', imgUrl: '/images/characters/odlaw.jpg'}
+        data: { name: 'Odlaw', imgUrl: '/images/characters/odlaw.png'}
     });
 
     await prisma.position.createMany({
