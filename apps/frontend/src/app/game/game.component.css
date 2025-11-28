@@ -9,6 +9,11 @@
   gap: 12px;
 }
 
+.characters-container {
+  display: flex;
+  gap: 12px;
+}
+
 img {
   width: 300px;
 }

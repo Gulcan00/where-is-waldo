@@ -4,6 +4,7 @@ import { TimerComponent } from '../timer/timer.component';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { Character } from '../models/character';
 import { ApiService } from '../services/api.service';
+import { CharacterComponent } from '../character/character.component';
 
 interface CharacterUI extends Character {
   found: boolean;
@@ -12,7 +13,7 @@ interface CharacterUI extends Character {
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [TimerComponent, DropdownComponent],
+  imports: [TimerComponent, DropdownComponent, CharacterComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
