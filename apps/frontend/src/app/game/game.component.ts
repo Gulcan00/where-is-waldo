@@ -2,13 +2,11 @@ import { Component, computed, ElementRef, OnInit, signal, Signal, viewChild } fr
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TimerComponent } from '../timer/timer.component';
 import { DropdownComponent } from '../dropdown/dropdown.component';
-import { Character } from '../models/character';
+import { CharacterUI } from '../models/character';
 import { ApiService } from '../services/api.service';
 import { CharacterComponent } from '../character/character.component';
-
-interface CharacterUI extends Character {
-  found: boolean;
-}
+import { TimerService } from '../services/timer.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -17,9 +15,9 @@ interface CharacterUI extends Character {
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
-export class GameComponent {
-  img = viewChild<ElementRef>('img');
+export class GameComponent implements OnInit {
   dropdownState = signal<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
+  sceneUrl: string = '';
 
   private xNormalized: number = 0;
   private yNormalized: number = 0;
@@ -39,7 +37,16 @@ export class GameComponent {
     }));
   });
 
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private timer: TimerService,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    const scene = this.activatedRoute.snapshot.queryParamMap.get('scene');
+    this.sceneUrl = '/assets/images/scenes/' + scene + '.jpeg';
+  }
 
   onClick(event: MouseEvent) {
      const target = event.target as HTMLElement;
@@ -60,11 +67,17 @@ export class GameComponent {
     this.api.validate({
       positionX: this.xNormalized,
       positionY: this.yNormalized,
+      imgUrl: this.sceneUrl,
       characterId
     }).subscribe({
       next: (result) => {
           if (result) {
             this.foundIds.update(currentIds => [...currentIds, characterId]);
+            const allFound = this.foundIds().length === this.characters().length;
+            if (allFound) {
+              this.timer.stopTimer();
+              alert('you win!');
+            }
           }         
       }
     })

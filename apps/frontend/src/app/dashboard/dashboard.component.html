@@ -1,0 +1,5 @@
+<div class="scenes-container">
+    @for (scene of scenes; track $index) {
+        <a routerLink="game" [queryParams]="{scene}"><img [src]="'/assets/images/scenes/' + scene + '.jpeg'" alt="Where's Waldo puzzle image"></a>
+    }
+</div>

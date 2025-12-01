@@ -1,0 +1,29 @@
+.scenes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.scenes-container a {
+    position: relative;
+}
+
+.scenes-container a:hover {
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.scenes-container a::after {
+    content: '▶︎';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    color: #01aeee;
+}
+
+.scenes-container a img {
+    max-width: 100%;
+}

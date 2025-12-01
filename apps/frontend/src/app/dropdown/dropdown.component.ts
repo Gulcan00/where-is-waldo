@@ -7,10 +7,12 @@ import { Component, input, output } from '@angular/core';
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.css'
 })
-export class DropdownComponent {
+export class DropdownComponent<T> {
   items = input.required<any[]>();
-  value = input.required<string>();
-  label = input.required<string>();
+  getValue = input.required<(item: T) => any>();
+  getLabel = input.required<(item: T) => string>();
+  shouldDisplay = input<(item: T) => boolean>();
+  imgUrl = input<string>();
 
   selectValue = output<any>();
 

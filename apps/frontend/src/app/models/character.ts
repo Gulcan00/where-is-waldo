@@ -3,3 +3,7 @@ export interface Character {
     name: string;
     imgUrl: string;
 }
+
+export interface CharacterUI extends Character {
+  found: boolean;
+}

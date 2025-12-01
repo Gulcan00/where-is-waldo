@@ -2,7 +2,14 @@
     <ul>
         @for (item of items(); track $index) {
             @if (!item.found) {
-                <li><button (click)="onSelectValue(item[value()])">{{ item[label()]}}</button></li>
+                <li>
+                    <button (click)="onSelectValue(item[value()])">
+                        @if (imgUrl()) {
+                            <img [src]="imgUrl()" [alt]="item[label()]" width="">
+                        }
+                        {{ item[label()]}}
+                    </button>
+                </li>
             }
         }
     </ul>
