@@ -82,4 +82,9 @@ export class GameComponent implements OnInit {
       }
     })
   }
+
+  getValue = (character: CharacterUI ) => character.id;
+  getLabel = (character: CharacterUI) => character.name;
+  shouldDisplay = (character: CharacterUI) => !character.found;
+  getImgUrl = (character: CharacterUI) => character.imgUrl;
 }

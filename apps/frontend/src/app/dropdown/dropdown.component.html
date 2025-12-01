@@ -1,13 +1,13 @@
 <div class="menu">
     <ul>
         @for (item of items(); track $index) {
-            @if (!item.found) {
+            @if (!shouldDisplay() || shouldDisplay()!(item)) {
                 <li>
-                    <button (click)="onSelectValue(item[value()])">
-                        @if (imgUrl()) {
-                            <img [src]="imgUrl()" [alt]="item[label()]" width="">
+                    <button (click)="onSelectValue(getValue()(item))">
+                        @if (getImgUrl()) {
+                            <div class="img-container"><img [src]="getImgUrl()!(item)" [alt]="getLabel()(item)"></div>
                         }
-                        {{ item[label()]}}
+                        {{ getLabel()(item) }}
                     </button>
                 </li>
             }

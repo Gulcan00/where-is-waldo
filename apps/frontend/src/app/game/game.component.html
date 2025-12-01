@@ -7,12 +7,27 @@
   />
   <div class="characters-container">
     @for (character of displayCharacters(); track $index) {
-      <app-character [name]="character.name"  [imgUrl]="character.imgUrl" [found]="character.found"></app-character>
+    <app-character
+      [name]="character.name"
+      [imgUrl]="character.imgUrl"
+      [found]="character.found"
+    ></app-character>
     }
   </div>
   @if (dropdownState().visible) {
-    <div [style.top.px]="dropdownState().y" [style.left.px]="dropdownState().x" style="position: absolute;">
-      <app-dropdown [items]="displayCharacters()" value="id" label="name" displayCondition="found" (selectValue)="onSelectValue($event)"></app-dropdown>
-    </div>
+  <div
+    [style.top.px]="dropdownState().y"
+    [style.left.px]="dropdownState().x"
+    style="position: absolute"
+  >
+    <app-dropdown
+      [items]="displayCharacters()"
+      [getValue]="getValue"
+      [getLabel]="getLabel"
+      [shouldDisplay]="shouldDisplay"
+      [getImgUrl]="getImgUrl"
+      (selectValue)="onSelectValue($event)"
+    ></app-dropdown>
+  </div>
   }
 </div>
