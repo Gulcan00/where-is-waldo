@@ -29,3 +29,21 @@ model Position {
   characterId Int
   imgUrl      String
 }
+
+model Session {
+  id        String   @id @default(cuid())
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  scores    Score[]
+}
+
+model Score {
+  id        String   @id @default(cuid())
+  sid       String
+  session   Session  @relation(fields: [sid], references: [sid])
+  name      String
+  time      BigInt
+  createdAt DateTime @default(now())
+}
