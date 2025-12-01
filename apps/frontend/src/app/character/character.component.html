@@ -1,5 +1,5 @@
 <div class="character-container" [class.found]="found()">
-    <img [src]="'/assets' + imgUrl()" [alt]="name()">
+    <img [src]="imgUrl()" [alt]="name()">
     @if (found()) {
         <span class="check"></span>
     }
