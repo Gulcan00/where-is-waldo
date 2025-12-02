@@ -9,6 +9,17 @@
   gap: 12px;
 }
 
+.timer {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: large;
+    color: var(--primary-color);
+    background-color: white;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-family: inherit;
+}
+
 .characters-container {
   display: flex;
   gap: 12px;

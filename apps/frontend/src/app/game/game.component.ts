@@ -1,17 +1,16 @@
-import { Component, computed, ElementRef, OnInit, signal, Signal, viewChild } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TimerComponent } from '../timer/timer.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CharacterComponent } from '../character/character.component';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { CharacterUI } from '../models/character';
 import { ApiService } from '../services/api.service';
-import { CharacterComponent } from '../character/character.component';
 import { TimerService } from '../services/timer.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [TimerComponent, DropdownComponent, CharacterComponent],
+  imports: [DropdownComponent, CharacterComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
@@ -39,13 +38,16 @@ export class GameComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private timer: TimerService,
-    private activatedRoute: ActivatedRoute
+    public timer: TimerService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     const scene = this.activatedRoute.snapshot.queryParamMap.get('scene');
     this.sceneUrl = '/assets/images/scenes/' + scene + '.jpeg';
+    this.timer.startTimer();
+    this.api.startGame().subscribe();
   }
 
   onClick(event: MouseEvent) {
@@ -76,10 +78,11 @@ export class GameComponent implements OnInit {
             const allFound = this.foundIds().length === this.characters().length;
             if (allFound) {
               this.timer.stopTimer();
-              alert('you win!');
+              this.api.endGame("John").subscribe();
             }
           }         
-      }
+      },
+      error: () => this.router.navigate([''])
     })
   }
 

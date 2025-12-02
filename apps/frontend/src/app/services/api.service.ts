@@ -20,4 +20,12 @@ export class ApiService {
   getCharacters() {
     return this.http.get<Character[]>(`${this.baseUrl}/character`);
   }
+
+  startGame() {
+    return this.http.post(`${this.baseUrl}/start-game`, null);
+  }
+
+  endGame(name: string) {
+    return this.http.post(`${this.baseUrl}/end-game`, {name});
+  }
 }
