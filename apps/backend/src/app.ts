@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type ErrorRequestHandler } from 'express';
 import cors from 'cors';
 import "dotenv/config";
 import expressSession from 'express-session';
@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:54369",
+    origin: process.env.FRONTEND_URL,
     credentials: true,             
   })
 );
@@ -48,4 +48,7 @@ app.listen(port, (err) => {
 });
 
 
-//TODO Global error handling
+app.use(((err, req, res, next) => {
+  return res.status(err.status || 500).json({err});
+}) as ErrorRequestHandler);
+
