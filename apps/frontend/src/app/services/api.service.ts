@@ -25,7 +25,14 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/start-game`, null);
   }
 
-  endGame(name: string) {
-    return this.http.post(`${this.baseUrl}/end-game`, {name});
+  endGame() {
+    return this.http.post<string>(`${this.baseUrl}/end-game`, null);
   }
+
+  saveScore(id: number, name: string) {
+    return this.http.put(`${this.baseUrl}/score/${id}`, 
+      {name}
+    );
+  }
+
 }

@@ -4,22 +4,26 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterComponent } from '../character/character.component';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { CharacterUI } from '../models/character';
+import { Score } from '../models/score';
+import { PlayerNameModalComponent } from '../player-name-modal/player-name-modal.component';
 import { ApiService } from '../services/api.service';
 import { TimerService } from '../services/timer.service';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [DropdownComponent, CharacterComponent],
+  imports: [DropdownComponent, CharacterComponent, PlayerNameModalComponent],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
 export class GameComponent implements OnInit {
   dropdownState = signal<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
+  showPlayerNameModal = signal<boolean>(false);
   sceneUrl: string = '';
 
   private xNormalized: number = 0;
   private yNormalized: number = 0;
+  private score: Score | undefined;
 
   readonly characters = toSignal(
     this.api.getCharacters(), 
@@ -78,12 +82,24 @@ export class GameComponent implements OnInit {
             const allFound = this.foundIds().length === this.characters().length;
             if (allFound) {
               this.timer.stopTimer();
-              this.api.endGame("John").subscribe();
+              this.api.endGame().subscribe({
+                next: (score: string) => {
+                  this.score = JSON.parse(score);
+                  this.showPlayerNameModal.set(true);
+                },
+                error: (err) => {
+                  console.error(err);
+                }
+              })
             }
           }         
       },
       error: () => this.router.navigate([''])
     })
+  }
+
+  onSubmit(name: string) {
+    this.api.saveScore(this.score!.id, name).subscribe(() => this.router.navigate(['']));
   }
 
   getValue = (character: CharacterUI ) => character.id;

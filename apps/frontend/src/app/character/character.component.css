@@ -25,7 +25,7 @@ span.check::after {
     top: 50%;   
     left: 50%;  
     transform: translate(-50%, -50%);
-    content: '✔';
+    content: '\2713';
     color: #198754;
     font-size: 80px;
 }

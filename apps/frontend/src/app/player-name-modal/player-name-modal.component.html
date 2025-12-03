@@ -1,0 +1,11 @@
+@if (show()) {
+    <div class="modal" [class.show]="show()">
+    <div class="modal-dialog grid">
+        <div class="grid">
+            <label for="name">Name</label>
+            <input id="name" type="text" [(ngModel)]="playerName"/>
+        </div>
+        <button (click)="onSubmit()" [disabled]="playerName.trim().length == 0">Submit</button>
+    </div>
+</div>
+}
