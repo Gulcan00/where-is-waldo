@@ -6,6 +6,7 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import gameRouter from './routes/game.router';
 import characterRouter from './routes/character.router';
 import { prisma } from './prisma/client';
+import scoreRouter from './routes/score.router';
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use('/', gameRouter);
 app.use('/character', characterRouter);
+app.use('/score', scoreRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, (err) => {
@@ -49,6 +51,7 @@ app.listen(port, (err) => {
 
 
 app.use(((err, req, res, next) => {
+  console.error(err);
   return res.status(err.status || 500).json({err});
 }) as ErrorRequestHandler);
 

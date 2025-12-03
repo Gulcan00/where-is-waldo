@@ -43,7 +43,7 @@ model Score {
   id        String   @id @default(cuid())
   sid       String
   session   Session  @relation(fields: [sid], references: [sid])
-  name      String
+  name      String?
   time      BigInt
   createdAt DateTime @default(now())
 }

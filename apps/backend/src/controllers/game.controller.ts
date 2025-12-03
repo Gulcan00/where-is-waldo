@@ -40,27 +40,21 @@ const startGame = (req: Request, res: Response) => {
     return res.json("Game started");
 }
 
-const endGame = [
-        body('name').trim().isAlphanumeric().withMessage('Name is required'),
-        async (req: Request, res: Response) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({errors: errors.array()});
-        }
-
+const endGame = async (req: Request, res: Response) => {
         const start = req.session.startTime;
         if (!start) return res.status(400).json({error: "Game not started"});
 
-        const { name } = req.body;
-        await prisma.score.create({
+        const score = await prisma.score.create({
             data: {
-                name, 
                 sid: req.sessionID,
                 time: Date.now() - start
             }
         });
-        return res.json("Game ended");
-    }
-];
+        const scoreJson = JSON.stringify(score, (key, value) => {
+            return typeof value === 'bigint' ? value.toString() : value;
+        })
+        return res.json(scoreJson);
+}
+
 
 export { validate, startGame, endGame };
