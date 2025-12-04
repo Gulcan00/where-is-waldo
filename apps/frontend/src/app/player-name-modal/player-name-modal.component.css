@@ -54,12 +54,14 @@ button {
   font-family: inherit;
   justify-self: end;
   width: fit-content;
-  color: inherit;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
-button:not(:disabled):hover {
+button:not(:disabled):hover, button:focus-visible{
   background-color: var(--primary-color);
   color: white;
 }
