@@ -9,10 +9,7 @@ export class TimerService implements OnDestroy {
   isRunning = signal(false);
   formattedTime = computed(() => {
     const totalSeconds = this.time();
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return this.formatTime(totalSeconds);
   });
     
 
@@ -33,6 +30,13 @@ export class TimerService implements OnDestroy {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
+  }
+
+  formatTime(totalSeconds: number) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 
   ngOnDestroy(): void {

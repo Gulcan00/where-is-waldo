@@ -1,5 +1,31 @@
+<h1>Where's Waldo</h1>
+<h2>Puzzles</h2>
 <div class="scenes-container">
-    @for (scene of scenes; track $index) {
-        <a routerLink="game" [queryParams]="{scene}"><img [src]="'/assets/images/scenes/' + scene + '.jpeg'" alt="Where's Waldo puzzle image"></a>
-    }
+  @for (scene of scenes; track $index) {
+  <a routerLink="game" [queryParams]="{scene}" class="puzzle-card">
+    <img
+      [src]="'/assets/images/scenes/' + scene + '.jpeg'"
+      alt="Where's Waldo puzzle image"
+    />
+  </a>
+  }
 </div>
+<h2>Leaderboard</h2>
+<table class="leaderboard-table">
+  <thead>
+    <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (score of scores(); track score.id; ) {
+    <tr>
+      <td class="text-right">#{{ $index + 1 }}</td>
+      <td>{{ score.name }}</td>
+      <td class="text-right">{{ timer.formatTime(score.time / 1000) }}</td>
+    </tr>
+    }
+  </tbody>
+</table>
