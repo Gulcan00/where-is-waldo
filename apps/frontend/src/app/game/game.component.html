@@ -32,5 +32,6 @@
     ></app-dropdown>
   </div>
   }
+  <div class="feedback-message" [class.active]="feedbackMessage()">{{feedbackMessage()}}</div>
   <app-player-name-modal [show]="showPlayerNameModal()" (submit)="onSubmit($event)"></app-player-name-modal>
 </div>

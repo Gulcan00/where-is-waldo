@@ -19,6 +19,7 @@ import { TimerService } from '../services/timer.service';
 export class GameComponent implements OnInit {
   dropdownState = signal<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
   showPlayerNameModal = signal<boolean>(false);
+  feedbackMessage = signal<string>('');
   sceneUrl: string = '';
 
   private xNormalized: number = 0;
@@ -93,7 +94,11 @@ export class GameComponent implements OnInit {
                 }
               })
             }
-          }         
+          } else {
+            const character = this.characters().find(c => c.id === characterId);
+            this.feedbackMessage.set(`That's not ${character?.name}!`);
+            setTimeout(() => this.feedbackMessage.set(''), 3000);
+          }       
       },
       error: () => this.router.navigate([''])
     })
