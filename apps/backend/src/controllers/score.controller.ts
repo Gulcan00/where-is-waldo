@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { body, param, validationResult } from 'express-validator';
 import { prisma } from "../prisma/client";
 
@@ -25,4 +25,25 @@ const updateScore = [
     }
 ];
 
-export { updateScore }
+const getScores = (req: Request, res: Response, next: NextFunction) => {
+    prisma.score.findMany({
+        where: {
+            name: {
+                not: null
+            }
+        },
+        orderBy: {
+            time: "asc"
+        },
+        take: 10
+    })
+    .then(scores => {
+        const scoresJson = JSON.stringify(scores, (_, value) => {
+            return typeof value === 'bigint' ? value.toString() : value;
+        });
+        return res.json(scoresJson);
+    })
+    .catch(err => next(err));
+}
+
+export { updateScore, getScores }
