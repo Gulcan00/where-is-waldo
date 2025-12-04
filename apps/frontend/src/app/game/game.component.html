@@ -18,9 +18,14 @@
   </div>
   @if (dropdownState().visible) {
   <div
-    [style.top.px]="dropdownState().y"
+    class="target-box"
+    [style.top.px]="dropdownState().y - 20"
+    [style.left.px]="dropdownState().x - 20"
+  ></div>
+  <div
+    [style.top.px]="dropdownState().y + 10"
     [style.left.px]="dropdownState().x"
-    style="position: absolute"
+    style="position: fixed"
   >
     <app-dropdown
       [items]="displayCharacters()"
@@ -32,6 +37,11 @@
     ></app-dropdown>
   </div>
   }
-  <div class="feedback-message" [class.active]="feedbackMessage()">{{feedbackMessage()}}</div>
-  <app-player-name-modal [show]="showPlayerNameModal()" (submit)="onSubmit($event)"></app-player-name-modal>
+  <div class="feedback-message" [class.active]="feedbackMessage()">
+    {{ feedbackMessage() }}
+  </div>
+  <app-player-name-modal
+    [show]="showPlayerNameModal()"
+    (submit)="onSubmit($event)"
+  ></app-player-name-modal>
 </div>
