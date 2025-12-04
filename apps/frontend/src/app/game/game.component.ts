@@ -31,13 +31,13 @@ export class GameComponent implements OnInit {
     { initialValue: []}
   );
 
-  foundIds = signal<number[]>([]);
+  foundCharacters = signal<{id: number, x: number, y: number}[]>([]);
 
   displayCharacters = computed<CharacterUI[]>(() => {
     const allCharacters = this.characters();
     return allCharacters.map(character => ({
       ...character,
-      found: this.foundIds().includes(character.id)
+      found: this.foundCharacters().some(c => c.id === character.id)
     }));
   });
 
@@ -80,8 +80,14 @@ export class GameComponent implements OnInit {
     }).subscribe({
       next: (result) => {
           if (result) {
-            this.foundIds.update(currentIds => [...currentIds, characterId]);
-            const allFound = this.foundIds().length === this.characters().length;
+            this.foundCharacters.update(currentCharacters => [...currentCharacters, 
+              {
+                id: characterId,
+                x: this.xNormalized,
+                y: this.yNormalized
+              }
+            ]);
+            const allFound = this.foundCharacters().length === this.characters().length;
             if (allFound) {
               this.timer.stopTimer();
               this.api.endGame().subscribe({
