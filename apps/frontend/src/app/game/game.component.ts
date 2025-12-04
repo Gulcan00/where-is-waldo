@@ -50,6 +50,7 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
     const scene = this.activatedRoute.snapshot.queryParamMap.get('scene');
     this.sceneUrl = '/assets/images/scenes/' + scene + '.jpeg';
+    this.timer.stopTimer();
     this.timer.startTimer();
     this.api.startGame().subscribe();
   }
