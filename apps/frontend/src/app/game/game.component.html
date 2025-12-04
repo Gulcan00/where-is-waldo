@@ -1,10 +1,12 @@
 <div class="container">
   <div class="timer">{{ timer.formattedTime() }}</div>
-  <img
-    [src]="sceneUrl"
-    alt="Where's Waldo puzzle image"
-    (click)="onClick($event)"
-  />
+  <div class="scene-area">
+    <img
+      [src]="sceneUrl"
+      alt="Where's Waldo puzzle image"
+      (click)="onClick($event)"
+    />
+  </div>
   <div class="characters-container">
     @for (character of displayCharacters(); track $index) {
     <app-character
