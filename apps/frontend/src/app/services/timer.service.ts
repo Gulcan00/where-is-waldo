@@ -25,6 +25,7 @@ export class TimerService implements OnDestroy {
   }
 
   stopTimer() {
+    this.time.set(0);
     this.isRunning.set(false);
     if (this.intervalId) {
       clearInterval(this.intervalId);
